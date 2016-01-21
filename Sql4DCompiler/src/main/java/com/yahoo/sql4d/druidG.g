@@ -371,8 +371,8 @@ simpleHaving  returns [Having having]
 
 complexHaving  returns [Having having]
 	: (s=simpleHaving ){having = s;}
-	| (a=simpleHaving WS o=(AND|OR) WS b=complexHaving) 
 	    {having = new Having($o.text.toLowerCase()); having.havingSpecs = Arrays.asList(a,b);}
+	| (a=simpleHaving WS o=(AND|OR) WS b=complexHaving) 
 	;
 	
 /////////////////////////////////////////////////////////	  
