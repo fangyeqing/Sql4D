@@ -40,10 +40,15 @@
       </license>
     </licenses>
     <distributionManagement>
-      <repository>
+      <!--<repository>
         <id>sonatype</id>
         <name>SONATYPE repository for staging releases.</name>
         <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+      </repository>-->
+      <repository>
+          <id>dsp</id>
+          <name>dsp nexus repository</name>
+          <url>http://nexus.corp.youdao.com/nexus/content/repositories/dsp/</url>
       </repository>
     </distributionManagement>
     <repositories>
