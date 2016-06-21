@@ -12,13 +12,14 @@ package com.yahoo.sql4d.sql4ddriver;
 
 import com.yahoo.sql4d.query.RequestType;
 import com.yahoo.sql4d.sql4ddriver.rowmapper.DruidBaseBean;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * Simply maps JSON to bean .
@@ -82,13 +83,16 @@ public class Mapper4Bean<T extends DruidBaseBean> extends BaseMapper {
         try {
             rowValues = rowMapper.newInstance();
             rowValues.getClass().getMethod("setTimestamp", String.class).invoke(rowValues, timestamp);
-            for (Object key : jsonRow.keySet()) {
-                Util.applyKVToBean(rowValues, key.toString(), jsonRow.get(key.toString()));
-            }
-
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
+        }catch(InstantiationException|IllegalAccessException|NoSuchMethodException|InvocationTargetException ex){
             Logger.getLogger(Mapper4Bean.class.getName()).log(Level.SEVERE, null, ex);
         }
+            for (Object key : jsonRow.keySet()) {
+                try {
+                    Util.applyKVToBean(rowValues, key.toString(), jsonRow.get(key.toString()));
+                } catch (NoSuchMethodException|IllegalAccessException|InvocationTargetException| IllegalArgumentException ex) {
+                    Logger.getLogger(Mapper4Bean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         return rowValues;
     }
 
